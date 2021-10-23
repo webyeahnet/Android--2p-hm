@@ -2,7 +2,7 @@ name: Android-Чтосмотреть-福利
 on:
   workflow_dispatch:
   schedule:
-    - cron: 20 21 * * *
+    - cron: 20 13 * * *
   watch:
     types: started
   repository_dispatch:
