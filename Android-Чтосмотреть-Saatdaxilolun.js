@@ -139,40 +139,6 @@ function wakeup(timeout = 0) {
             },timeout)
     })
 }
-
-function wakeup(timeout = 0) {
-    return new Promise((resolve) => {
-        let url = {
-            url : 'https://kd.youth.cn/WebApi/PunchCard/doCard?'+zq_cookie1,
-            headers : {'Host': 'kd.youth.cn',
-            'Content-Length': '0',
-             'Referer':' https://kd.youth.cn/h5/20190603cardactive/?'+'keyword_wyq=woyaoq.com&access=4G&app-version=8.1.2&app_version=8.1.2&carrier=%E4%B8%AD%E5%9B%BD%E7%A7%BB%E5%8A%A8&channel=c1005&'+zq_cookie1
-            },
-        }
-        $.post(url, async (err, resp, data) => {
-            try {
-
-                const result = JSON.parse(data)
-                if(result.code === 1 ){
-                    signup = result.data.signup_num
-                    //console.log(result)
-                    console.log(`打卡 ${result.msg} \n`)
-                    console.log(`打卡时间： ${result.data.card_time} \n`)
-                    console.log(`瓜分人数 ${signup}\n`)
-                    console.log(`瓜分金额 ${result.data.jackpot_money}`)
-                    $.message = `中青打卡结果:${result.msg}\n打卡时间：${result.data.card_time}\n瓜分人数:${signup} \n 瓜分金额:${result.data.jackpot_money}元`
-                    $.msg($.name, "", `中青打卡结果:${result.msg}\n打卡时间：${result.data.card_time}\n瓜分人数:${signup} \n 瓜分金额:${result.data.jackpot_money}元`);
-                }else{
-                    console.log(result)
-                }
-            } catch (e) {
-            } finally {
-                resolve()
-            }
-            },timeout)
-    })
-}
-
 function Env(t, e) {
     class s {
         constructor(t) {
