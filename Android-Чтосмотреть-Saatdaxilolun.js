@@ -44,7 +44,7 @@ Object.keys(zq_cookies).forEach((item) => {
                 cookie_id = cookie.replace(/zqkey_id=/, "cookie_id=")
                 zq_cookie1= cookie_id  +'&device_brand=xfdg&device_id=cc7dgdsgfsz83e&device_model=1gx&device_platform=android&device_type=android&inner_version=202107261526&mi=0&openudid=cc7dgdsgfsz83e&os_api=27&os_version=bdftgsdfga&phone_network=WIFI&phone_sim=1'+'&request_time=' + time1 +'&time=' + time1 +'&'+ bodyVal
                 //console.log(`${zq_cookie1}`)
-                if(hour >= 8 ){
+                if(hour < 21 ){
                 console.log(`--------第 ${k + 1} 个账号早起打卡报名中--------\n`)
                 await signup()
                 console.log("\n\n")
@@ -53,7 +53,7 @@ Object.keys(zq_cookies).forEach((item) => {
                     }
                 await $.wait(3000)
 
-                } else if(hour >= 5 && hour < 8){
+                } else if(hour >= 21 && hour < 24){
                     console.log(`--------第 ${k + 1} 个账号早起打卡中--------\n`)
                     await wakeup()
                     console.log("\n\n")
@@ -97,6 +97,39 @@ function signup(timeout = 0) {
                     $.msg($.name, "", `中青打卡赚钱报名:${result.msg}\n 瓜分人数:${signup1} \n 瓜分金额:${result.data.jackpot_money}元`);
                 }else{
                     $.message = `结果:${result.msg}\n`
+                    console.log(result)
+                }
+            } catch (e) {
+            } finally {
+                resolve()
+            }
+            },timeout)
+    })
+}
+
+function wakeup(timeout = 0) {
+    return new Promise((resolve) => {
+        let url = {
+            url : 'https://kd.youth.cn/WebApi/PunchCard/doCard?'+zq_cookie1,
+            headers : {'Host': 'kd.youth.cn',
+            'Content-Length': '0',
+             'Referer':' https://kd.youth.cn/h5/20190603cardactive/?'+'keyword_wyq=woyaoq.com&access=4G&app-version=8.1.2&app_version=8.1.2&carrier=%E4%B8%AD%E5%9B%BD%E7%A7%BB%E5%8A%A8&channel=c1005&'+zq_cookie1
+            },
+        }
+        $.post(url, async (err, resp, data) => {
+            try {
+
+                const result = JSON.parse(data)
+                if(result.code === 1 ){
+                    signup = result.data.signup_num
+                    //console.log(result)
+                    console.log(`打卡 ${result.msg} \n`)
+                    console.log(`打卡时间： ${result.data.card_time} \n`)
+                    console.log(`瓜分人数 ${signup}\n`)
+                    console.log(`瓜分金额 ${result.data.jackpot_money}`)
+                    $.message = `中青打卡结果:${result.msg}\n打卡时间：${result.data.card_time}\n瓜分人数:${signup} \n 瓜分金额:${result.data.jackpot_money}元`
+                    $.msg($.name, "", `中青打卡结果:${result.msg}\n打卡时间：${result.data.card_time}\n瓜分人数:${signup} \n 瓜分金额:${result.data.jackpot_money}元`);
+                }else{
                     console.log(result)
                 }
             } catch (e) {
