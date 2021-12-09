@@ -70,7 +70,6 @@ jobs:
             'Android-Чтосмотреть-məqalə.yml',
             'Android-Чтосмотреть-oxumaq2.yml',
             'Android-Чтосмотреть-İrəli.yml',
-            'ydfx.yml',
             'ydjllq.yml',
             'delete-workflow-runs.yml'
           ]
